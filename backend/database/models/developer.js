@@ -31,51 +31,7 @@ module.exports = (sequelize, DataTypes) => {
           }
       }
     },
-    developerNumber:{
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      unique: {
-        args: true,
-        msg: "developer Number must be unique"
-      },
-      validate: {
-          notEmpty: {
-            args: true,
-            msg: "Empty string is not a valid developer Number"
-          },
-          notNull: {
-            args: true,
-            msg: "Developer Number is required"
-          },
-          len: {
-            args: [10, 50],
-            msg: "Developer Number can can take a minimum of 10 and a maximum of 50 characters"
-          }
-      }
-    },
-     
-    registrationNumber:{
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      unique: {
-        args: true,
-        msg: "DeveloperNumber must be unique"
-      },
-      validate: {
-          notEmpty: {
-            args: true,
-            msg: "Empty string is not a valid DeveloperNumber"
-          },
-          notNull: {
-            args: true,
-            msg: "DeveloperNumber is required"
-          },
-          len: {
-            args: [10, 50],
-            msg: "Developer number can take a minimum of 10 and a maximum of 50 characters"
-          }
-      }
-    },
+  
     gender: {
       type: DataTypes.ENUM('FEMALE', 'MALE'),
       defaultValue: 'MALE',
@@ -136,14 +92,7 @@ module.exports = (sequelize, DataTypes) => {
     otherNames: {
       type:DataTypes.STRING(80)
     },
-    imagePath:{
-      type:DataTypes.STRING(300),
-      allowNull: true,
-      unique: {
-        args: true,
-        msg: 'images should be unique'
-      }
-    },
+    
     email: {
       type:DataTypes.STRING(255),
       allowNull: true,

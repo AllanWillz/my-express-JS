@@ -36,11 +36,11 @@ router.post('/find-by-id', function(request, response, next){
 ]);
 });
 
-/* GET students listing. */
+/* GET developers listing. */
 router.get('/', listAll);
 developersRouter.get('/', listAll)
 
-/* GET students listing. */
+/* GET developers listing. */
 router.post('/:id/update', function(req, res, next) {
   const { id } = req.params;
   res.send({ success: true, id});

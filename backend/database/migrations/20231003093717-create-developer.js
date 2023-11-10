@@ -9,16 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      developerNumber: {
-        type: Sequelize.STRING(50),
-        unique: true,
-        allowNull: false
-      },
-      registrationNumber: {
-        type: Sequelize.STRING(50),
-        unique: true,
-        allowNull: false
-      },
+      
       gender: {
         type: Sequelize.ENUM('FEMALE','MALE'),
         allowNull: false,
@@ -40,11 +31,7 @@ module.exports = {
         type: Sequelize.STRING(80),
         allowNull: true
       },
-      imagePath: {
-        type: Sequelize.STRING(300),
-        allowNull: true,
-        unique: true
-      },
+      
       email: {
         type: Sequelize.STRING(255),
         unique: true,

@@ -23,12 +23,10 @@ function App() {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>#</th>
+              <th>ID</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>OtherName</th>
-              <th>Developer Number</th>
-              <th>Registration Number</th>
               <th>Gender</th>
               <th>Email</th>
               <th>Telephone</th>
@@ -43,8 +41,6 @@ function App() {
                   <td>{developer.firstName}</td>
                   <td>{developer.lastName}</td>
                   <td>{developer.otherNames}</td>
-                  <td>{developer.developerNumber}</td>
-                  <td>{developer.registrationNumber}</td>
                   <td>{developer.gender}</td>
                   <td>{developer.email}</td>
                   <td>{developer.telephone}</td>
