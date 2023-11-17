@@ -5,6 +5,8 @@ function titleCaseName(request, response, next){
       let remainingLetters = letters.join('').toLowerCase();
       request.body.firstName = `${firstLetter}${remainingLetters}`;
 
+
+
       letters = request.body.lastName.split('');
       firstLetter = letters.splice(0, 1).join('').toUpperCase();
       remainingLetters = letters.join('').toLowerCase();

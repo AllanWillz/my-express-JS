@@ -31,6 +31,8 @@ module.exports = (sequelize, DataTypes) => {
           }
       }
     },
+
+    
   
     gender: {
       type: DataTypes.ENUM('FEMALE', 'MALE'),
@@ -59,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
           notEmpty: {
             args: true,
-            msg: "Empty string is not a valid first names"
+            msg: "Empty string is not a valid first name"
           },
           notNull: {
             args: true,
@@ -97,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING(255),
       allowNull: true,
       unique: {
-        args: true,
+        args: false,
         msg: 'email should be unique'
       },
       validate: {
@@ -111,7 +113,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING(20),
       allowNull: true,
       unique: {
-        args: true,
+        args: false,
         msg: 'telephone should be unique'
       }
     },

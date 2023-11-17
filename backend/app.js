@@ -43,4 +43,13 @@ app.use(function(err, req, res, next) {
 
 app.use('/Developers', developersRouter)
 
+
+// app.listen(4000, () => {
+//   console.log('Server is running on port 3001');
+// });
+const port = 3001; 
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+})
+
 module.exports = app;

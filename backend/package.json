@@ -9,6 +9,7 @@
     "Start": "node app.js",
     "create:db": "npx sequelize-cli db:create",
     "run:migrations": "npx sequelize-cli db:migrate"
+    
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -33,3 +34,4 @@
     "delay": 2500
   }
 }
+

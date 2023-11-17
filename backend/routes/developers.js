@@ -1,26 +1,21 @@
 const express = require('express');
-const developersRouter = express.Router()
-const router = express.Router();
-const { createDeveloper, listAll } = require('../controllers/developer-controller');
-const { logModifiedName, titleCaseName }  = require('../middlewares/developer');
+const developersRouter = express.Router();
+const { createDeveloper, listAll, deleteDeveloper, editDeveloper } = require('../controllers/developer-controller');
+const { logModifiedName, titleCaseName } = require('../middlewares/developer');
 
-router.post('/create', 
+developersRouter.post('/create',
   titleCaseName,
   logModifiedName,
   createDeveloper
 );
 
-
-router.post('/find-by-id', function(request, response, next){
+developersRouter.post('/find-by-id', function (request, response, next) {
   const { name, language } = request.body;
   const id = request.query.id;
-  //const userId = request.params.userId;*/
- 
   return response.send([
     {
       id,
       router: 'developers',
-      // method: 'POST',
       name,
       age: 20,
       language
@@ -28,24 +23,24 @@ router.post('/find-by-id', function(request, response, next){
     {
       id,
       router: 'developers',
-      // method: 'POST',
       name,
-      age: 20, 
+      age: 20,
       language
     }
-]);
+  ]);
 });
 
-/* GET developers listing. */
-router.get('/', listAll);
-developersRouter.get('/', listAll)
+developersRouter.get('/', listAll);
 
-/* GET developers listing. */
-router.post('/:id/update', function(req, res, next) {
+developersRouter.post('/:id/update', function (req, res, next) {
   const { id } = req.params;
-  res.send({ success: true, id});
+  res.send({ success: true, id });
 });
 
+// EDIT
+developersRouter.put('/:id/edit', titleCaseName, logModifiedName, editDeveloper);
+
+// DELETE developer
+developersRouter.delete('/:id', deleteDeveloper);
 
 module.exports = developersRouter;
-module.exports = router;
