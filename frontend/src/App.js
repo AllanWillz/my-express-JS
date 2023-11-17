@@ -10,6 +10,8 @@ function App() {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [developerToDelete, setDeveloperToDelete] = useState(null);
   const [editingDeveloper, setEditingDeveloper] = useState(null);
+
+  
   const [newDeveloper, setNewDeveloper] = useState({
     firstName: '',
     lastName: '',
@@ -20,22 +22,38 @@ function App() {
     dateOfBirth: '',
   });
 
-  useEffect(() => {
-    fetchDevelopers();
-  }, []);
 
+  useEffect(() => {
+    console.log('showEditForm changed:', showEditForm);
+  }, [showEditForm]);
+
+  
   const BASE_URL = 'http://localhost:3001/developers';
 
+  useEffect(() => {
+
+  
+
+  
+  
   const fetchDevelopers = async () => {
     try {
       const response = await axios.get(BASE_URL);
-      if (response) {
+      if (response.data && response.data.developers) {
         setDevelopers(response.data.developers);
+      } else {
+        setDevelopers([])
       }
     } catch (error) {
       console.error('Error fetching developers:', error);
     }
   };
+
+  fetchDevelopers();
+}, []);
+
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -45,30 +63,75 @@ function App() {
   const addOrUpdateDeveloper = async () => {
     try {
       const response = isEditing
-        ? await axios.put(`${BASE_URL}/${editingDeveloper.id}`, newDeveloper)
+        ? await axios.put(`${BASE_URL}/${editingDeveloper.id}/edit`, newDeveloper)
         : await axios.post(`${BASE_URL}/create`, newDeveloper);
 
-      if (response) {
+
+      if (response.status === 201 || response.status === 200 ) {
         const updatedDevelopers = isEditing
           ? developers.map((dev) => (dev.id === editingDeveloper.id ? response.data.updatedDeveloper : dev))
           : [...developers, response.data.newDeveloper];
 
+          console.log('Response from server:', response);
+
+
         setDevelopers(updatedDevelopers);
         hideEditDeveloperModal();
+
+        setNewDeveloper({
+          firstName: '',
+          lastName: '',
+          otherNames: '',
+          gender: '',
+          email: '',
+          telephone: '',
+          dateOfBirth: '',
+        });
+
+
+      }  else {
+        handleUnsuccessfulResponse(response)
       }
     } catch (error) {
       console.error(`Error ${isEditing ? 'editing' : 'adding'} developer:`, error);
     }
   };
 
+  const handleUnsuccessfulResponse = (response) => {
+    if (response.status === 400) {
+      console.error('Bad Request:', response.data.error);
+    } else if (response.status === 404) {
+      console.error('Resource Not Found:', response.data.error);
+    } else {
+      console.error('Unexpected Error:', response.data.error);
+    }
+  };
+
+
+
+
   const showEditDeveloperModal = (developer) => {
     setEditingDeveloper(developer);
-    setNewDeveloper({ ...developer });
+    const newDeveloperData = {
+      firstName: '',
+      lastName: '',
+      otherNames: '',
+      gender: '',
+      email: '',
+      telephone: '',
+      dateOfBirth: '',
+      ...developer, 
+    };
+
+    setNewDeveloper(newDeveloperData);
     setShowEditForm(true);
     setIsEditing(true);
   };
 
   const hideEditDeveloperModal = () => {
+
+      console.log('Hiding edit deeveloper modal');
+
     setEditingDeveloper(null);
     setNewDeveloper({
       firstName: '',
@@ -82,6 +145,9 @@ function App() {
     setShowEditForm(false);
     setIsEditing(false);
   };
+
+
+
 
   const showDeleteConfirmationModal = (developer) => {
     setDeveloperToDelete(developer);
@@ -121,9 +187,11 @@ function App() {
         </Button>
 
         <Modal show={showAddForm || showEditForm} onHide={hideAddDeveloperModal}>
+
           <Modal.Header closeButton>
-            <Modal.Title>{showEditForm ? 'Edit Developer' : 'Add Developer'}</Modal.Title>
+            <Modal.Title>{showEditForm ? 'Edit Developer' : 'Add Developer'} onHide={hideDeleteConfirmationModal}</Modal.Title>
           </Modal.Header>
+
           <Modal.Body>
             <Form>
               <Form.Group controlId="formFirstName">
@@ -191,16 +259,17 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {developers?.map((developer, index) => (
-              <tr key={developer.id}>
+            {developers && developers.length > 0 ?(
+            developers.map((developer, index) => (
+              <tr key={developer?.id || index}>
                 <td>{index + 1}</td>
-                <td>{developer.firstName}</td>
-                <td>{developer.lastName}</td>
-                <td>{developer.otherNames}</td>
-                <td>{developer.gender}</td>
-                <td>{developer.email}</td>
-                <td>{developer.telephone}</td>
-                <td>{developer.dateOfBirth}</td>
+                <td>{developer?.firstName || 'Loading....'}</td>
+                <td>{developer?.lastName || 'Loading....'}</td>
+                <td>{developer?.otherNames || 'Loading....'}</td>
+                <td>{developer?.gender || 'Loading....'}</td>
+                <td>{developer?.email || 'Loading....'}</td>
+                <td>{developer?.telephone || 'Loading....'}</td>
+                <td>{developer?.dateOfBirth || 'Loading....'}</td>
                 <td>
                  
                   <Button variant="success" onClick={() => showEditDeveloperModal(developer)}>
@@ -212,9 +281,17 @@ function App() {
                 
                 </td>
               </tr>
-            ))}
+            ))
+            ):(
+              <tr>
+                <td colSpan="9">No developers found</td>
+              </tr>
+            )}
           </tbody>
         </Table>
+
+              
+
 
         <Modal show={showDeleteConfirmation} onHide={hideDeleteConfirmationModal}>
           <Modal.Header closeButton>
