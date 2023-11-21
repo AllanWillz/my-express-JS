@@ -23,6 +23,7 @@ function App() {
   });
 
 
+
   useEffect(() => {
     console.log('showEditForm changed:', showEditForm);
   }, [showEditForm]);
@@ -31,11 +32,6 @@ function App() {
   const BASE_URL = 'http://localhost:3001/developers';
 
   useEffect(() => {
-
-  
-
-  
-  
   const fetchDevelopers = async () => {
     try {
       const response = await axios.get(BASE_URL);
@@ -48,7 +44,6 @@ function App() {
       console.error('Error fetching developers:', error);
     }
   };
-
   fetchDevelopers();
 }, []);
 
@@ -60,24 +55,26 @@ function App() {
     setNewDeveloper({ ...newDeveloper, [name]: value });
   };
 
+
+
+
   const addOrUpdateDeveloper = async () => {
     try {
       const response = isEditing
         ? await axios.put(`${BASE_URL}/${editingDeveloper.id}/edit`, newDeveloper)
         : await axios.post(`${BASE_URL}/create`, newDeveloper);
 
-
       if (response.status === 201 || response.status === 200 ) {
         const updatedDevelopers = isEditing
           ? developers.map((dev) => (dev.id === editingDeveloper.id ? response.data.updatedDeveloper : dev))
           : [...developers, response.data.newDeveloper];
-
           console.log('Response from server:', response);
+
+
 
 
         setDevelopers(updatedDevelopers);
         hideEditDeveloperModal();
-
         setNewDeveloper({
           firstName: '',
           lastName: '',
@@ -88,7 +85,6 @@ function App() {
           dateOfBirth: '',
         });
 
-
       }  else {
         handleUnsuccessfulResponse(response)
       }
@@ -96,6 +92,9 @@ function App() {
       console.error(`Error ${isEditing ? 'editing' : 'adding'} developer:`, error);
     }
   };
+
+
+
 
   const handleUnsuccessfulResponse = (response) => {
     if (response.status === 400) {
@@ -122,16 +121,15 @@ function App() {
       dateOfBirth: '',
       ...developer, 
     };
-
     setNewDeveloper(newDeveloperData);
     setShowEditForm(true);
     setIsEditing(true);
   };
 
+
+
   const hideEditDeveloperModal = () => {
-
       console.log('Hiding edit deeveloper modal');
-
     setEditingDeveloper(null);
     setNewDeveloper({
       firstName: '',
@@ -154,18 +152,22 @@ function App() {
     setShowDeleteConfirmation(true);
   };
 
+
   const showAddDeveloperModal = () => {
     setShowAddForm(true);
   };
+
 
   const hideAddDeveloperModal = () => {
     setShowAddForm(false);
   };
 
+
   const hideDeleteConfirmationModal = () => {
     setDeveloperToDelete(null);
     setShowDeleteConfirmation(false);
   };
+
 
   const deleteDeveloper = async () => {
     try {
@@ -179,6 +181,8 @@ function App() {
     }
   };
 
+  
+
   return (
     <div className="App">
       <Container>
@@ -187,6 +191,7 @@ function App() {
         </Button>
 
         <Modal show={showAddForm || showEditForm} onHide={hideAddDeveloperModal}>
+          
 
           <Modal.Header closeButton>
             <Modal.Title>{showEditForm ? 'Edit Developer' : 'Add Developer'} onHide={hideDeleteConfirmationModal}</Modal.Title>
@@ -243,6 +248,8 @@ function App() {
             </Form>
           </Modal.Body>
         </Modal>
+
+
 
         <Table striped bordered hover>
           <thead>
