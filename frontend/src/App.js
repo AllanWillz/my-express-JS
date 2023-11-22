@@ -146,7 +146,6 @@ function App() {
 
 
 
-
   const showDeleteConfirmationModal = (developer) => {
     setDeveloperToDelete(developer);
     setShowDeleteConfirmation(true);
@@ -194,7 +193,7 @@ function App() {
           
 
           <Modal.Header closeButton>
-            <Modal.Title>{showEditForm ? 'Edit Developer' : 'Add Developer'} onHide={hideDeleteConfirmationModal}</Modal.Title>
+            <Modal.Title>{showEditForm ? 'Edit Developer' : 'Add Developer'} {hideDeleteConfirmationModal}</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -236,7 +235,7 @@ function App() {
 
               {showEditForm && (
                 <Button variant="success" onClick={addOrUpdateDeveloper}>
-                  Save Changes
+                  Save 
                 </Button>
               )}
 
