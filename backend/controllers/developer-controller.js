@@ -11,6 +11,7 @@ async function createDeveloper(request, response) {
         return response.status(201).send({ developer });
     } catch (error) {
         console.error('Error creating developer:', error);
+
         // return response.status(500).send({ error: 'Internal Server Error', details: error.message });
         console.log(error);
 

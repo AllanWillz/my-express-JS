@@ -2,7 +2,14 @@ import { Table, Container, Form, Button, Modal } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
+
+
+
 function App() {
+
+  //THE STATE VARIABLES USING THE USE STATE HOOKS
+
   const [developers, setDevelopers] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
@@ -10,8 +17,6 @@ function App() {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [developerToDelete, setDeveloperToDelete] = useState(null);
   const [editingDeveloper, setEditingDeveloper] = useState(null);
-
-  
   const [newDeveloper, setNewDeveloper] = useState({
     firstName: '',
     lastName: '',
@@ -24,11 +29,14 @@ function App() {
 
 
 
+
+
+// EFFECT HOOK TO FETCH DEVELOPER FROM THE SERVER
+
   useEffect(() => {
     console.log('showEditForm changed:', showEditForm);
   }, [showEditForm]);
 
-  
   const BASE_URL = 'http://localhost:3001/developers';
 
   useEffect(() => {
@@ -50,6 +58,9 @@ function App() {
 
 
 
+
+ // EVENT HANDLER FOR INPUT CHANGES
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewDeveloper({ ...newDeveloper, [name]: value });
@@ -57,6 +68,8 @@ function App() {
 
 
 
+
+// FUNCTION TO ADD OR UPDATE A DEVELOPER
 
   const addOrUpdateDeveloper = async () => {
     try {
@@ -69,9 +82,6 @@ function App() {
           ? developers.map((dev) => (dev.id === editingDeveloper.id ? response.data.updatedDeveloper : dev))
           : [...developers, response.data.newDeveloper];
           console.log('Response from server:', response);
-
-
-
 
         setDevelopers(updatedDevelopers);
         hideEditDeveloperModal();
@@ -96,6 +106,10 @@ function App() {
 
 
 
+
+
+// FUNCTION TO HANDLE THE UNSUCCESSFUL API RESPONSES
+
   const handleUnsuccessfulResponse = (response) => {
     if (response.status === 400) {
       console.error('Bad Request:', response.data.error);
@@ -108,6 +122,9 @@ function App() {
 
 
 
+
+
+ // FUNCTION TO SHOW THE EDIT DEVELOPER FORM (MODAL)
 
   const showEditDeveloperModal = (developer) => {
     setEditingDeveloper(developer);
@@ -128,6 +145,10 @@ function App() {
 
 
 
+
+
+  // FUNCTION TO HIDE THE EDIT DEVELOPER FORM (MODAL)
+
   const hideEditDeveloperModal = () => {
       console.log('Hiding edit deeveloper modal');
     setEditingDeveloper(null);
@@ -146,27 +167,48 @@ function App() {
 
 
 
+
+
+  // FUNCTION TO SHOW THE DELETE CONFIRMATION MESSAGE (MODAL)
+
   const showDeleteConfirmationModal = (developer) => {
     setDeveloperToDelete(developer);
     setShowDeleteConfirmation(true);
   };
 
 
+
+
+  
+  // FUNCTION TO SHOW THE ADD DEVELOPER FORM (MODAL)
+
   const showAddDeveloperModal = () => {
     setShowAddForm(true);
   };
 
+
+
+
+  // FUNCTION TO HIDE THE ADD DEVELOPER FORM (MODAL)
 
   const hideAddDeveloperModal = () => {
     setShowAddForm(false);
   };
 
 
+  
+  
+  // FUNCTION TO HANDLE HIDE DELETE CONFIRMATION MESSAGE (MODAL)
+
   const hideDeleteConfirmationModal = () => {
     setDeveloperToDelete(null);
     setShowDeleteConfirmation(false);
   };
 
+
+
+
+  // FUNCTION TO DELETE A DEVELOPER
 
   const deleteDeveloper = async () => {
     try {
@@ -180,7 +222,10 @@ function App() {
     }
   };
 
-  
+
+
+
+  //RENDERING
 
   return (
     <div className="App">
